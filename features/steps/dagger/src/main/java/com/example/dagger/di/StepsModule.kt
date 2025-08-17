@@ -4,25 +4,29 @@ import android.util.Log
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.StepsRepository
 import com.example.core.StepsViewModelImpl
+import com.example.core.scopes.FeatureScope
 import com.example.core.scopes.StepsScope
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 class StepsModule {
     @Provides
     @StepsScope
-    fun provideStepsRepository(): StepsRepository {
-        Log.d("StepsModule", "Creating StepsRepository")
+    fun provideStepsRepository(scope: FeatureScope): StepsRepository {
+        Log.d("StepsModule", "Creating repository for scope: $scope")
         return StepsRepository()
     }
 
     @Provides
     @StepsScope
     fun provideStepsViewModel(
-        stepsRepository: StepsRepository
+        repository: StepsRepository,
+        scope: FeatureScope
     ): StepsViewModel {
-        Log.d("StepsModule", "Creating StepsViewModel")
-        return StepsViewModelImpl(stepsRepository)
+        Log.d("StepsModule", "Creating ViewModel for scope: $scope")
+        return StepsViewModelImpl(repository)
     }
 }

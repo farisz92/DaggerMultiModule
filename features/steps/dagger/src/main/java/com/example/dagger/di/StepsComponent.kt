@@ -1,18 +1,26 @@
 package com.example.dagger.di
 
 import com.example.api.interfaces.StepsViewModel
-import com.example.core.StepsRepository
+import com.example.core.di.prod.CoreComponent
+import com.example.core.scopes.FeatureScope
 import com.example.core.scopes.StepsScope
-import dagger.Subcomponent
+import dagger.BindsInstance
+import dagger.Component
 
 @StepsScope
-@Subcomponent(modules = [StepsModule::class])
+@Component(
+    modules = [StepsModule::class],
+    dependencies = [CoreComponent::class]
+)
 interface StepsComponent {
     fun stepsViewModel(): StepsViewModel
-    fun stepsRepository(): StepsRepository
 
-    @Subcomponent.Factory
+    @Component.Factory
     interface Factory {
-        fun create(): StepsComponent
+        fun create(
+            coreComponent: CoreComponent,
+            @BindsInstance scope: FeatureScope
+        ): StepsComponent
     }
 }
+

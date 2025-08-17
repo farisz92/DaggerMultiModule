@@ -1,18 +1,26 @@
 package com.example.dagger.di
 
 import com.example.api.interfaces.HeartRateViewModel
-import com.example.core.HeartRateRepository
+import com.example.core.di.prod.CoreComponent
+import com.example.core.scopes.FeatureScope
 import com.example.core.scopes.HeartRateScope
-import dagger.Subcomponent
+import dagger.BindsInstance
+import dagger.Component
+import javax.inject.Named
 
 @HeartRateScope
-@Subcomponent(modules = [HeartRateModule::class])
+@Component(
+    modules = [HeartRateModule::class],
+    dependencies = [CoreComponent::class]
+)
 interface HeartRateComponent {
     fun heartRateViewModel(): HeartRateViewModel
-    fun heartRateRepository(): HeartRateRepository
 
-    @Subcomponent.Factory
+    @Component.Factory
     interface Factory {
-        fun create(): HeartRateComponent
+        fun create(
+            coreComponent: CoreComponent,
+            @BindsInstance scope: FeatureScope
+        ): HeartRateComponent
     }
 }

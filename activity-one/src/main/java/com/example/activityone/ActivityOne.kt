@@ -18,14 +18,15 @@ import com.example.api.interfaces.HeartRateViewModel
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.scopes.InjectFeature
 import com.example.activityone.ui.theme.DaggerMultiModuleTheme
+import com.example.core.scopes.FeatureScope
 import com.example.ui.BaseActivity
 
 class ActivityOne : BaseActivity() {
 
-    @InjectFeature
+    @InjectFeature(FeatureScope.APP)
     lateinit var stepsVM: StepsViewModel
 
-    @InjectFeature
+    @InjectFeature(FeatureScope.ACTIVITY)
     lateinit var heartRateVM: HeartRateViewModel
 
     override fun onFeaturesInjected() {

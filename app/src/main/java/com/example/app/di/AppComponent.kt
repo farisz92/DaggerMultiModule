@@ -9,10 +9,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [AppModule::class],
-    dependencies = [CoreComponent::class]
+    dependencies = [CoreComponent::class],
 )
 
 interface AppComponent {
-    fun stepsComponent(): StepsComponent.Factory
-    fun heartRateComponent(): HeartRateComponent.Factory
 }
