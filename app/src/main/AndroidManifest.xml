@@ -9,14 +9,6 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.DaggerMultiModule">
         <activity
-            android:name="com.example.app.activities.ActivityOne"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="com.example.app.activities.ActivityTwo"
             android:exported="true">
         </activity>

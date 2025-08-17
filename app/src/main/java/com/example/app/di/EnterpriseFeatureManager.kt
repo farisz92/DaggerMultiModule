@@ -8,7 +8,7 @@ import com.example.dagger.di.HeartRateFeaturePlugin
 import com.example.dagger.di.StepsFeaturePlugin
 import java.lang.reflect.Field
 
-class EnterpriseFeatureManager(private val appComponent: AppComponent): FeatureManager {
+class EnterpriseFeatureManager(appComponent: AppComponent): FeatureManager {
     private val providers = mutableMapOf<Class<*>, FeatureProvider<*>>()
     private val fieldCache = mutableMapOf<Class<*>, List<Field>>()
 
