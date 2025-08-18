@@ -43,7 +43,7 @@ dependencies {
     implementation(project(":features:steps:api"))
     implementation(project(":core:di"))
 
-    implementation(":heartrate-fat-debug@aar")
+    heartRateDependencies(project)
 
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)

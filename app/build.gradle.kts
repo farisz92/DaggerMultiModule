@@ -52,7 +52,7 @@ dependencies {
     implementation(project(":features:steps:dagger"))
     implementation(project(":features:steps:core"))
 
-    implementation(":heartrate-fat-debug@aar")
+    heartRateDependencies(project)
 
     // Dagger
     kapt(libs.dagger.compiler)
@@ -88,3 +88,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+
+val useLocalHeartRate = project.findProperty("useLocalHeartRate")?.toString()?.toBoolean() ?: false

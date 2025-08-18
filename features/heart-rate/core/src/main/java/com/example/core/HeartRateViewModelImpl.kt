@@ -7,7 +7,7 @@ import javax.inject.Inject
 class HeartRateViewModelImpl @Inject constructor(
     private val repository: HeartRateRepository
 ): HeartRateViewModel {
-    private val _instanceId: String = UUID.randomUUID().toString()
+    private val _instanceId: String = "Faris"
     override val instanceId: String
         get() = _instanceId
 

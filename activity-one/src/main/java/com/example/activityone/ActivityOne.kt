@@ -2,6 +2,7 @@ package com.example.activityone
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -33,10 +34,15 @@ class ActivityOne : BaseActivity() {
     @InjectFeature(FeatureScope.ACTIVITY)
     lateinit var heartRateVM: HeartRateViewModel
 
-    override fun onFeaturesInjected() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("ActivityOne", "Kratos - HeartRateVM - Id : ${heartRateVM.instanceId}")
+    }
+
+        override fun onFeaturesInjected() {
         super.onFeaturesInjected()
         Log.d("ActivityOne", "Kratos - StepsVM - Id : ${stepsVM.instanceId}")
-        Log.d("ActivityOne", "Kratos - HeartRateVM - Id : ${heartRateVM.instanceId}")
+//        Log.d("ActivityOne", "Kratos - HeartRateVM - Id : ${heartRateVM.instanceId}")
         setupUI()
     }
 

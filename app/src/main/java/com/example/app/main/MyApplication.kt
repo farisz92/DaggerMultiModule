@@ -24,24 +24,25 @@ class MyApplication : Application(), FeatureInjectorProvider {
 
     override fun onCreate() {
         super.onCreate()
-
-        Log.d("MyApplication", "onCreate - creating components")
+        logMemoryUsage("App Startup")
 
         try {
             val core: CoreComponent = DaggerCoreComponent.create()
             CoreProvider.init(core)
-
-            StepsModuleInitializer(core)
-            HeartRateModuleInitializer(core)
+            logMemoryUsage("After core component")
 
             appComponent = DaggerAppComponent.builder()
                 .coreComponent(core)
                 .build()
 
+            logMemoryUsage("After app component")
+
+            loadFeatures(core)
+
             // Use new enterprise manager
             scopeAwareFeatureManager = EnterpriseScopeAwareFeatureManager()
 
-            Log.d("MyApplication", "onCreate - components created successfully")
+            logMemoryUsage("FeatureManager created")
         } catch (e: Exception) {
             Log.e("MyApplication", "Failed to create components", e)
             throw e
@@ -56,5 +57,28 @@ class MyApplication : Application(), FeatureInjectorProvider {
         override fun clearFragmentScope(fragment: Fragment) {
             scopeAwareFeatureManager.clearScope(FeatureScope.FRAGMENT, fragment)
         }
+    }
+
+    private fun loadFeatures(coreComponent: CoreComponent) {
+        logMemoryUsage("Loading Features")
+        loadStepsFeature(coreComponent)
+        loadHeartRateFeature(coreComponent)
+        logMemoryUsage("Features Loaded")
+    }
+
+    private fun loadStepsFeature(coreComponent: CoreComponent) {
+        StepsModuleInitializer(coreComponent)
+        logMemoryUsage("Steps Loaded")
+    }
+
+    private fun loadHeartRateFeature(coreComponent: CoreComponent) {
+        HeartRateModuleInitializer(coreComponent)
+        logMemoryUsage("HearRate Loaded")
+    }
+
+    private fun logMemoryUsage(tag: String) {
+        val runtime = Runtime.getRuntime()
+        val usedMemoryKB = (runtime.totalMemory() - runtime.freeMemory()) / 1024
+        Log.d("Memory", "$tag - Used memory: ${usedMemoryKB}KB")
     }
 }
