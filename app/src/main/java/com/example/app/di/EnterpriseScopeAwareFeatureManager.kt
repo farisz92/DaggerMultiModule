@@ -1,10 +1,10 @@
 package com.example.app.di
 
 import android.util.Log
-import com.example.core.featureprovision.ScopeAwareFeatureManager
+import com.example.core.di.FeatureScope
 import com.example.core.featureprovision.LazyFeatureProvider
+import com.example.core.featureprovision.ScopeAwareFeatureManager
 import com.example.core.featureprovision.SelfRegisteringFeaturePlugin
-import com.example.core.scopes.FeatureScope
 import com.example.core.scopes.InjectFeature
 import java.lang.reflect.Field
 

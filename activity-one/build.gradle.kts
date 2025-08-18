@@ -37,7 +37,7 @@ android {
 
 dependencies {
     implementation(project(":ui"))
-    implementation(project(":core"))
+    implementation(project(":core:core"))
     implementation(project(":activity-two"))
 
     implementation(project(":features:steps:api"))
@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(project(":core:di"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

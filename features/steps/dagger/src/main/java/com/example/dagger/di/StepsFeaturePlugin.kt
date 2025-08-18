@@ -2,11 +2,11 @@ package com.example.dagger.di
 
 import android.util.Log
 import com.example.api.interfaces.StepsViewModel
+import com.example.core.di.FeatureScope
 import com.example.core.di.prod.CoreComponent
 import com.example.core.featureprovision.ComponentProviderRegistry
 import com.example.core.featureprovision.LazyFeatureProvider
 import com.example.core.featureprovision.SelfRegisteringFeaturePlugin
-import com.example.core.scopes.FeatureScope
 
 class StepsFeaturePlugin(
     private val coreComponent: CoreComponent

@@ -1,9 +1,8 @@
 package com.example.dagger.di
 
 import com.example.api.interfaces.StepsViewModel
+import com.example.core.di.FeatureScope
 import com.example.core.di.prod.CoreComponent
-import com.example.core.scopes.FeatureScope
-import com.example.core.scopes.StepsScope
 import dagger.BindsInstance
 import dagger.Component
 
@@ -18,7 +17,7 @@ interface StepsComponent {
     @Component.Factory
     interface Factory {
         fun create(
-            coreComponent: CoreComponent,
+            coreComponent: com.example.core.di.prod.CoreComponent,
             @BindsInstance scope: FeatureScope
         ): StepsComponent
     }

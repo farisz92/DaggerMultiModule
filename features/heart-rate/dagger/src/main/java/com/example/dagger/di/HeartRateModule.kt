@@ -4,8 +4,7 @@ import android.util.Log
 import com.example.api.interfaces.HeartRateViewModel
 import com.example.core.HeartRateRepository
 import com.example.core.HeartRateViewModelImpl
-import com.example.core.scopes.FeatureScope
-import com.example.core.scopes.HeartRateScope
+import com.example.core.di.FeatureScope
 import dagger.Module
 import dagger.Provides
 

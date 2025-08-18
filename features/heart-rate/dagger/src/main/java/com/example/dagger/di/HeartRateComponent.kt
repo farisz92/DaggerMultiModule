@@ -1,12 +1,10 @@
 package com.example.dagger.di
 
 import com.example.api.interfaces.HeartRateViewModel
+import com.example.core.di.FeatureScope
 import com.example.core.di.prod.CoreComponent
-import com.example.core.scopes.FeatureScope
-import com.example.core.scopes.HeartRateScope
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Named
 
 @HeartRateScope
 @Component(

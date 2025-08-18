@@ -21,8 +21,8 @@ import com.example.activity_two.lifecyclecomponent.ActivityTwo
 import com.example.activityone.ui.theme.DaggerMultiModuleTheme
 import com.example.api.interfaces.HeartRateViewModel
 import com.example.api.interfaces.StepsViewModel
+import com.example.core.di.FeatureScope
 import com.example.core.lifecycle.BaseActivity
-import com.example.core.scopes.FeatureScope
 import com.example.core.scopes.InjectFeature
 
 class ActivityOne : BaseActivity() {

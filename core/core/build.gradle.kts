@@ -1,17 +1,16 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
 }
 
 android {
-    namespace = "com.example.activity_two"
-    compileSdk = 34
+    namespace = "com.example.core.core"
+    compileSdk = 35
 
     defaultConfig {
+        // applicationId removed - only for application modules
         minSdk = 24
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,19 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {
-    implementation(project(":ui"))
-    implementation(project(":core:core"))
-
-    implementation(project(":features:steps:api"))
-    implementation(project(":features:heart-rate:api"))
     implementation(project(":core:di"))
-
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)
     implementation(libs.dagger)
@@ -51,18 +41,9 @@ dependencies {
     implementation(libs.dagger.android.support)
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
 }

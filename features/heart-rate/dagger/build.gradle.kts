@@ -35,7 +35,8 @@ android {
 dependencies {
     implementation(project(":features:heart-rate:api"))
     implementation(project(":features:heart-rate:core"))
-    implementation(project(":core"))
+    implementation(project(":core:core"))
+    implementation(project(":core:di"))
 
     // Dagger
     kapt(libs.dagger.compiler)

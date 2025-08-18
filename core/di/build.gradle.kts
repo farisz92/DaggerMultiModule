@@ -5,13 +5,14 @@ plugins {
 }
 
 android {
-    namespace = "com.example.core"
-    compileSdk = 35
+    namespace = "com.example.core.di"
+    compileSdk = 34
 
     defaultConfig {
-        // applicationId removed - only for application modules
         minSdk = 24
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -33,9 +34,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":features:steps:api"))
-    implementation(project(":features:heart-rate:api"))
-
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)
     implementation(libs.dagger)

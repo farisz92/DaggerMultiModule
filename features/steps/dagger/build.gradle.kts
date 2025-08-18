@@ -35,7 +35,8 @@ android {
 dependencies {
     implementation(project(":features:steps:api"))
     implementation(project(":features:steps:core"))
-    implementation(project(":core"))
+    implementation(project(":core:di"))
+    implementation(project(":core:core"))
 
     // Dagger
     kapt(libs.dagger.compiler)

@@ -1,4 +1,4 @@
-package com.example.core.scopes
+package com.example.core.di
 
 enum class FeatureScope {
     APP,

@@ -16,12 +16,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        flatDir {
+            dirs("app/libs")
+        }
     }
 }
 
 rootProject.name = "DaggerMultiModule"
 include(":app")
-include(":core")
 include(":features:steps")
 include(":features:steps:api")
 include(":features:steps:dagger")
@@ -33,3 +35,5 @@ include(":features:heart-rate:core")
 include(":ui")
 include(":activity-one")
 include(":activity-two")
+include(":core:di")
+include(":core:core")

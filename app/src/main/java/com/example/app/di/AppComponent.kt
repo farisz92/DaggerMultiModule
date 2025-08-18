@@ -7,7 +7,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [AppModule::class],
-    dependencies = [CoreComponent::class],
+    dependencies = [com.example.core.di.prod.CoreComponent::class],
 )
 
 interface AppComponent

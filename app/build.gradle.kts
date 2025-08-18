@@ -41,7 +41,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":core:di"))
+    implementation(project(":core:core"))
+
     implementation(project(":activity-one"))
     implementation(project(":activity-two"))
     implementation(project(":ui"))
@@ -49,9 +51,11 @@ dependencies {
     implementation(project(":features:steps:api"))
     implementation(project(":features:steps:dagger"))
     implementation(project(":features:steps:core"))
-    implementation(project(":features:heart-rate:api"))
-    implementation(project(":features:heart-rate:dagger"))
-    implementation(project(":features:heart-rate:core"))
+
+    implementation(":heartrate-fat-debug@aar")
+//    implementation(project(":features:heart-rate:api"))
+//    implementation(project(":features:heart-rate:dagger"))
+//    implementation(project(":features:heart-rate:core"))
 
     // Dagger
     kapt(libs.dagger.compiler)

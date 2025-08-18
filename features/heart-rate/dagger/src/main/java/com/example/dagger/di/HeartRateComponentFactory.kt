@@ -1,8 +1,8 @@
 package com.example.dagger.di
 
+import com.example.core.di.FeatureScope
 import com.example.core.di.prod.CoreComponent
 import com.example.core.featureprovision.ScopedComponentFactory
-import com.example.core.scopes.FeatureScope
 
 class HeartRateComponentFactory(
     private val coreComponent: CoreComponent

@@ -4,12 +4,9 @@ import android.util.Log
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.StepsRepository
 import com.example.core.StepsViewModelImpl
-import com.example.core.scopes.FeatureScope
-import com.example.core.scopes.StepsScope
+import com.example.core.di.FeatureScope
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 class StepsModule {

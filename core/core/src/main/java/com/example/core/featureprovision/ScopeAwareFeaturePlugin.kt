@@ -1,6 +1,6 @@
 package com.example.core.featureprovision
 
-import com.example.core.scopes.FeatureScope
+import com.example.core.di.FeatureScope
 
 interface ScopeAwareFeaturePlugin : FeaturePlugin {
     fun getSupportedScopes(): Set<FeatureScope>

@@ -1,6 +1,6 @@
 package com.example.core.featureprovision
 
-import com.example.core.scopes.FeatureScope
+import com.example.core.di.FeatureScope
 
 interface ScopeAwareFeatureManager {
     fun <T> getFeature(clazz: Class<T>, scope: FeatureScope, scopeKey: Any? = null): T?
