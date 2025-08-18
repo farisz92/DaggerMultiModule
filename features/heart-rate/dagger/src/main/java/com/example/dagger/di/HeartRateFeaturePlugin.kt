@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.api.interfaces.HeartRateViewModel
 import com.example.core.di.prod.CoreComponent
 import com.example.core.featureprovision.ComponentProviderRegistry
-import com.example.core.featureprovision.FeatureProvider
+import com.example.core.featureprovision.LazyFeatureProvider
 import com.example.core.featureprovision.SelfRegisteringFeaturePlugin
 import com.example.core.scopes.FeatureScope
 
@@ -22,17 +22,17 @@ class HeartRateFeaturePlugin(
         ComponentProviderRegistry.registerFactory(featureId, HeartRateComponentFactory(coreComponent))
     }
 
-    override fun getProviders(): Map<Class<*>, FeatureProvider<*>> {
+    override fun getProviders(): Map<Class<*>, LazyFeatureProvider<*>> {
         return createScopedProviders(FeatureScope.APP, null)
     }
 
-    override fun createScopedProviders(scope: FeatureScope, scopeKey: Any?): Map<Class<*>, FeatureProvider<*>> {
+    override fun createScopedProviders(scope: FeatureScope, scopeKey: Any?): Map<Class<*>, LazyFeatureProvider<*>> {
         val component = ComponentProviderRegistry.getComponent(featureId, scope, Any::class.java)
                 as? HeartRateComponent ?: return emptyMap()
 
         return mapOf(
-            HeartRateViewModel::class.java to object : FeatureProvider<HeartRateViewModel> {
-                override fun provide(): HeartRateViewModel = component.heartRateViewModel()
+            HeartRateViewModel::class.java to LazyFeatureProvider {
+                component.heartRateViewModel()
             }
         )
     }

@@ -8,5 +8,5 @@ interface ScopeAwareFeaturePlugin : FeaturePlugin {
     fun createScopedProviders(
         scope: FeatureScope,
         scopeKey: Any?
-    ): Map<Class<*>, FeatureProvider<*>>
+    ): Map<Class<*>, LazyFeatureProvider<*>>
 }

@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.di.prod.CoreComponent
 import com.example.core.featureprovision.ComponentProviderRegistry
-import com.example.core.featureprovision.FeatureProvider
+import com.example.core.featureprovision.LazyFeatureProvider
 import com.example.core.featureprovision.SelfRegisteringFeaturePlugin
 import com.example.core.scopes.FeatureScope
 
@@ -22,17 +22,17 @@ class StepsFeaturePlugin(
         ComponentProviderRegistry.registerFactory(featureId, StepsComponentFactory(coreComponent))
     }
 
-    override fun getProviders(): Map<Class<*>, FeatureProvider<*>> {
+    override fun getProviders(): Map<Class<*>, LazyFeatureProvider<*>> {
         return createScopedProviders(FeatureScope.APP, null)
     }
 
-    override fun createScopedProviders(scope: FeatureScope, scopeKey: Any?): Map<Class<*>, FeatureProvider<*>> {
+    override fun createScopedProviders(scope: FeatureScope, scopeKey: Any?): Map<Class<*>, LazyFeatureProvider<*>> {
         val component = ComponentProviderRegistry.getComponent(featureId, scope, Any::class.java)
                 as? StepsComponent ?: return emptyMap()
 
         return mapOf(
-            StepsViewModel::class.java to object : FeatureProvider<StepsViewModel> {
-                override fun provide(): StepsViewModel = component.stepsViewModel()
+            StepsViewModel::class.java to LazyFeatureProvider {
+                component.stepsViewModel()
             }
         )
     }

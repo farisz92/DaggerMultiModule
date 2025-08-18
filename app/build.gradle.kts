@@ -43,6 +43,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":activity-one"))
+    implementation(project(":activity-two"))
     implementation(project(":ui"))
 
     implementation(project(":features:steps:api"))

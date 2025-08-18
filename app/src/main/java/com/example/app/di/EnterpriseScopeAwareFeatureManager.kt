@@ -2,16 +2,16 @@ package com.example.app.di
 
 import android.util.Log
 import com.example.core.featureprovision.ScopeAwareFeatureManager
-import com.example.core.featureprovision.FeatureProvider
+import com.example.core.featureprovision.LazyFeatureProvider
 import com.example.core.featureprovision.SelfRegisteringFeaturePlugin
 import com.example.core.scopes.FeatureScope
 import com.example.core.scopes.InjectFeature
 import java.lang.reflect.Field
 
 class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
-    private val appProviders = mutableMapOf<Class<*>, FeatureProvider<*>>()
+    private val appProviders = mutableMapOf<Class<*>, LazyFeatureProvider<*>>()
     private val scopedProviders =
-        mutableMapOf<FeatureScope, MutableMap<Any, MutableMap<Class<*>, FeatureProvider<*>>>>()
+        mutableMapOf<FeatureScope, MutableMap<Any, MutableMap<Class<*>, LazyFeatureProvider<*>>>>()
     private val fieldCache = mutableMapOf<Class<*>, List<Field>>()
 
     init {
@@ -27,16 +27,15 @@ class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
     }
 
     private fun initializeDiscoveredPlugins() {
-        // Get all plugins that have self-registered
         val discoveredPlugins = SelfRegisteringFeaturePlugin.getAllPlugins()
 
         discoveredPlugins.forEach { plugin ->
             plugin.initialize()
 
-            // For app scope, immediately create providers
+            // For app scope, wrap providers in LazyFeatureProvider
             if (plugin.getSupportedScopes().contains(FeatureScope.APP)) {
                 plugin.getProviders().forEach { (clazz, provider) ->
-                    appProviders[clazz] = provider
+                    appProviders[clazz] = LazyFeatureProvider { provider.provide() }
                 }
             }
 
@@ -50,10 +49,7 @@ class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
     override fun <T> getFeature(clazz: Class<T>, scope: FeatureScope, scopeKey: Any?): T? {
         return try {
             when (scope) {
-                FeatureScope.APP -> {
-                    (appProviders[clazz] as? FeatureProvider<T>)?.provide()
-                }
-
+                FeatureScope.APP -> (appProviders[clazz] as? LazyFeatureProvider<T>)?.provide()
                 else -> {
                     requireNotNull(scopeKey) { "$scope scope requires scopeKey" }
                     getScopedFeature(clazz, scope, scopeKey)
@@ -67,28 +63,26 @@ class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
 
     private fun <T> getScopedFeature(clazz: Class<T>, scope: FeatureScope, scopeKey: Any): T? {
         val scopeProviders = scopedProviders[scope] ?: return null
-
         val providers = scopeProviders.getOrPut(scopeKey) {
             createProvidersForScope(scope, scopeKey)
         }
-
-        @Suppress("UNCHECKED_CAST")
-        return (providers[clazz] as? FeatureProvider<T>)?.provide()
+        return (providers[clazz] as? LazyFeatureProvider<T>)?.provide()
     }
 
     private fun createProvidersForScope(
         scope: FeatureScope,
         scopeKey: Any
-    ): MutableMap<Class<*>, FeatureProvider<*>> {
-        val providers = mutableMapOf<Class<*>, FeatureProvider<*>>()
+    ): MutableMap<Class<*>, LazyFeatureProvider<*>> {
+        val providers = mutableMapOf<Class<*>, LazyFeatureProvider<*>>()
 
-        // Ask ALL discovered plugins if they support this scope
         SelfRegisteringFeaturePlugin.getAllPlugins()
             .filter { it.getSupportedScopes().contains(scope) }
             .forEach { plugin ->
                 try {
                     val pluginProviders = plugin.createScopedProviders(scope, scopeKey)
-                    providers.putAll(pluginProviders)
+                    pluginProviders.forEach { (clazz, provider) ->
+                        providers[clazz] = LazyFeatureProvider { provider.provide() }
+                    }
                 } catch (e: Exception) {
                     Log.e(
                         "FeatureManager",
@@ -103,7 +97,6 @@ class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
 
     override fun inject(target: Any) {
         val fields = getInjectableFields(target.javaClass)
-
         fields.forEach { field ->
             val annotation = field.getAnnotation(InjectFeature::class.java)
             val scope = annotation.scope
@@ -122,10 +115,7 @@ class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
 
     override fun clearScope(scope: FeatureScope, scopeKey: Any) {
         when (scope) {
-            FeatureScope.APP -> {
-                Log.w("FeatureManager", "Cannot clear app scope")
-            }
-
+            FeatureScope.APP -> Log.w("FeatureManager", "Cannot clear app scope")
             else -> {
                 scopedProviders[scope]?.remove(scopeKey)
                 Log.d("FeatureManager", "Cleared $scope scope for ${scopeKey::class.simpleName}")

@@ -1,5 +1,8 @@
 package com.example.activityone
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
@@ -14,12 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.activity_two.lifecyclecomponent.ActivityTwo
+import com.example.activityone.ui.theme.DaggerMultiModuleTheme
 import com.example.api.interfaces.HeartRateViewModel
 import com.example.api.interfaces.StepsViewModel
-import com.example.core.scopes.InjectFeature
-import com.example.activityone.ui.theme.DaggerMultiModuleTheme
+import com.example.core.lifecycle.BaseActivity
 import com.example.core.scopes.FeatureScope
-import com.example.ui.BaseActivity
+import com.example.core.scopes.InjectFeature
 
 class ActivityOne : BaseActivity() {
 
@@ -31,6 +35,8 @@ class ActivityOne : BaseActivity() {
 
     override fun onFeaturesInjected() {
         super.onFeaturesInjected()
+        Log.d("ActivityOne", "Kratos - StepsVM - Id : ${stepsVM.instanceId}")
+        Log.d("ActivityOne", "Kratos - HeartRateVM - Id : ${heartRateVM.instanceId}")
         setupUI()
     }
 
@@ -43,6 +49,8 @@ class ActivityOne : BaseActivity() {
                         StepsButton(stepsVM)
                         Spacer(Modifier.height(20.dp))
                         HeartRateButton(heartRateVM)
+                        Spacer(Modifier.height(40.dp))
+                        ActivityTwoButton(this@ActivityOne)
                     }
                 }
             }
@@ -67,6 +75,17 @@ fun HeartRateButton(heartRateViewModel: HeartRateViewModel) {
         Text("Heart Rate")
     }
 }
+
+@Composable
+fun ActivityTwoButton(context: Context) {
+    Button(onClick = {
+        val activityTwoIntent = Intent(context, ActivityTwo::class.java)
+        context.startActivity(activityTwoIntent)
+    }) {
+        Text("Go To -> Activity Two")
+    }
+}
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

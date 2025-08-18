@@ -35,7 +35,7 @@ android {
 dependencies {
     implementation(project(":features:steps:api"))
     implementation(project(":features:heart-rate:api"))
-    // Your existing dependencies...
+
     kapt(libs.dagger.compiler)
     kapt(libs.dagger.android.processor)
     implementation(libs.dagger)

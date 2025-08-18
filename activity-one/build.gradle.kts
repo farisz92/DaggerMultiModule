@@ -38,6 +38,8 @@ android {
 dependencies {
     implementation(project(":ui"))
     implementation(project(":core"))
+    implementation(project(":activity-two"))
+
     implementation(project(":features:steps:api"))
     implementation(project(":features:heart-rate:api"))
 
