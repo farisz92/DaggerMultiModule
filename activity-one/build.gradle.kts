@@ -41,7 +41,7 @@ dependencies {
     implementation(project(":activity-two"))
 
     implementation(project(":features:steps:api"))
-    implementation(project(":features:heart-rate:api"))
+    implementation(":heartrate-fat-debug@aar")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

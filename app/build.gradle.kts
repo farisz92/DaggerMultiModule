@@ -53,9 +53,6 @@ dependencies {
     implementation(project(":features:steps:core"))
 
     implementation(":heartrate-fat-debug@aar")
-//    implementation(project(":features:heart-rate:api"))
-//    implementation(project(":features:heart-rate:dagger"))
-//    implementation(project(":features:heart-rate:core"))
 
     // Dagger
     kapt(libs.dagger.compiler)

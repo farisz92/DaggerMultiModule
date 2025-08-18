@@ -56,24 +56,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-tasks.register("createFatAarWithCore") {
-    dependsOn(":core:di:assembleDebug")
-    dependsOn("createFatAar")
-
-    doLast {
-        val buildDir = layout.buildDirectory.get().asFile
-        val fatAar = file("${buildDir}/outputs/aar/heartrate-fat-debug.aar")
-        val coreAar = file("${project(":core:di").buildDir}/outputs/aar/core-di-debug.aar")
-
-        if (coreAar.exists()) {
-            println("Core AAR found: ${coreAar.absolutePath}")
-            println("You can manually merge core classes if needed")
-            // Could add manual merge logic here
-        }
-    }
-}
-
-
 val combineClassesTask = tasks.register<Zip>("combineClasses") {
     dependsOn("assembleDebug")
     dependsOn(":core:di:assembleDebug")  // Add this
