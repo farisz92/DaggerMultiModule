@@ -57,6 +57,7 @@ class MyApplication : Application(), FeatureInjectorProvider {
         override fun clearFragmentScope(fragment: Fragment) {
             scopeAwareFeatureManager.clearScope(FeatureScope.FRAGMENT, fragment)
         }
+        override fun getFeatureManager(): ScopeAwareFeatureManager = scopeAwareFeatureManager
     }
 
     private fun loadFeatures(coreComponent: CoreComponent) {

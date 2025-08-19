@@ -3,6 +3,8 @@ package com.example.activityone
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -23,27 +25,50 @@ import com.example.activityone.ui.theme.DaggerMultiModuleTheme
 import com.example.api.interfaces.HeartRateViewModel
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.di.FeatureScope
+import com.example.core.featureprovision.LazyFeatureDelegate
+import com.example.core.featureprovision.lazyFeature
 import com.example.core.lifecycle.BaseActivity
 import com.example.core.scopes.InjectFeature
+import kotlin.getValue
 
 class ActivityOne : BaseActivity() {
 
-    @InjectFeature(FeatureScope.APP)
-    lateinit var stepsVM: StepsViewModel
+    @field:InjectFeature(FeatureScope.APP)
+    private lateinit var _stepsVM: LazyFeatureDelegate<StepsViewModel>
 
-    @InjectFeature(FeatureScope.ACTIVITY)
-    lateinit var heartRateVM: HeartRateViewModel
+    val stepsVM: StepsViewModel
+        get() = _stepsVM.get()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("ActivityOne", "Kratos - HeartRateVM - Id : ${heartRateVM.instanceId}")
+    private val heartRateVM by lazyFeature(HeartRateViewModel::class, FeatureScope.ACTIVITY) {
+        getFeatureManager()
     }
 
-        override fun onFeaturesInjected() {
-        super.onFeaturesInjected()
-        Log.d("ActivityOne", "Kratos - StepsVM - Id : ${stepsVM.instanceId}")
-//        Log.d("ActivityOne", "Kratos - HeartRateVM - Id : ${heartRateVM.instanceId}")
-        setupUI()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)  // This calls onFeaturesInjected()
+        Log.d("Leviathan", "onCreate - Before onFeaturesInjected")
+
+        // This should not trigger VM creation
+        Log.d("Leviathan", "Activity created, VM should not be created yet")
+    }
+
+    override fun onFeaturesInjected() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            Log.d("Leviathan", "After onFeaturesInjected - Before first access")
+            Log.d("Leviathan", "About to access heartRateVM for the first time")
+            val vm = heartRateVM
+            Log.d("Leviathan", "After first access to heartRateVM")
+
+            // Verify the VM was created
+            assert(vm != null)
+
+            // Access again to verify caching
+            val sameVm = heartRateVM
+            assert(vm === sameVm) // Should be the same instance
+            setupUI()
+            Log.d("Kratos", "StepsVM - Id : ${stepsVM.instanceId}")
+            Log.d("Kratos", "HeartRateVM - Id : ${heartRateVM.instanceId}")
+
+        }, 1000) // 1 second delay to ensure injection is complete
     }
 
     private fun setupUI() {

@@ -27,11 +27,13 @@ class HeartRateFeaturePlugin(
     }
 
     override fun createScopedProviders(scope: FeatureScope, scopeKey: Any?): Map<Class<*>, LazyFeatureProvider<*>> {
+        Log.d("HeartRatePlugin", "Leviathan - Creating providers for scope: $scope")
         val component = ComponentProviderRegistry.getComponent(featureId, scope, Any::class.java)
-                as? HeartRateComponent ?: return emptyMap()
+            as? HeartRateComponent ?: return emptyMap()
 
         return mapOf(
             HeartRateViewModel::class.java to LazyFeatureProvider {
+                Log.d("HeartRatePlugin", "Leviathan - Creating HeartRateViewModel instance")
                 component.heartRateViewModel()
             }
         )

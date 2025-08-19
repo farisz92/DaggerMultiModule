@@ -2,11 +2,13 @@ package com.example.app.di
 
 import android.util.Log
 import com.example.core.di.FeatureScope
+import com.example.core.featureprovision.LazyFeatureDelegate
 import com.example.core.featureprovision.LazyFeatureProvider
 import com.example.core.featureprovision.ScopeAwareFeatureManager
 import com.example.core.featureprovision.SelfRegisteringFeaturePlugin
 import com.example.core.scopes.InjectFeature
 import java.lang.reflect.Field
+import java.lang.reflect.ParameterizedType
 
 class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
     private val appProviders = mutableMapOf<Class<*>, LazyFeatureProvider<*>>()
@@ -100,15 +102,35 @@ class EnterpriseScopeAwareFeatureManager : ScopeAwareFeatureManager {
         fields.forEach { field ->
             val annotation = field.getAnnotation(InjectFeature::class.java)
             val scope = annotation.scope
-
             val scopeKey = when (scope) {
                 FeatureScope.APP -> null
                 else -> target
             }
 
-            getFeature(field.type, scope, scopeKey)?.let { feature ->
+            // Get the actual feature type from the field's generic type
+            val featureClass = field.type as Class<*>
+            if (featureClass == LazyFeatureDelegate::class.java) {
+                // This is a LazyFeatureDelegate field, we need to get its type parameter
+                val genericType = field.genericType as? ParameterizedType
+                    ?: throw IllegalArgumentException("LazyFeatureDelegate must be parameterized")
+                val actualType = genericType.actualTypeArguments[0] as Class<*>
+
+                // Create a LazyFeatureDelegate for the actual feature type
+                val delegate = LazyFeatureDelegate<Any>(
+                    scope = scope,
+                    scopeKey = scopeKey,
+                    featureManager = this,
+                    featureClass = actualType as Class<Any>
+                )
+
                 field.isAccessible = true
-                field.set(target, feature)
+                field.set(target, delegate)
+            } else {
+                // Original behavior for non-lazy fields
+                getFeature(field.type as Class<Any>, scope, scopeKey)?.let { feature ->
+                    field.isAccessible = true
+                    field.set(target, feature)
+                }
             }
         }
     }
