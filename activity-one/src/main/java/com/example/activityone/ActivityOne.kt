@@ -45,18 +45,18 @@ class ActivityOne : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)  // This calls onFeaturesInjected()
-        Log.d("Leviathan", "onCreate - Before onFeaturesInjected")
+        Log.d("ActivityOne", "Leviathan - onCreate - Before onFeaturesInjected")
 
         // This should not trigger VM creation
-        Log.d("Leviathan", "Activity created, VM should not be created yet")
+        Log.d("ActivityOne", "Leviathan - Activity created, VM should not be created yet")
     }
 
     override fun onFeaturesInjected() {
         Handler(Looper.getMainLooper()).postDelayed({
-            Log.d("Leviathan", "After onFeaturesInjected - Before first access")
-            Log.d("Leviathan", "About to access heartRateVM for the first time")
+            Log.d("ActivityOne", "Leviathan - After onFeaturesInjected - Before first access")
+            Log.d("ActivityOne", "Leviathan - About to access heartRateVM for the first time")
             val vm = heartRateVM
-            Log.d("Leviathan", "After first access to heartRateVM")
+            Log.d("ActivityOne", "Leviathan - After first access to heartRateVM")
 
             // Verify the VM was created
             assert(vm != null)
