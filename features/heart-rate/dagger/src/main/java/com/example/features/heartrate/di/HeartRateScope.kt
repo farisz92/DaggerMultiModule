@@ -1,4 +1,4 @@
-package com.example.dagger.di
+package com.example.features.heartrate.di
 
 import javax.inject.Scope
 

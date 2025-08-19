@@ -1,4 +1,4 @@
-package com.example.api.entry
+package com.example.features.heartrate.api.entry
 
 import androidx.activity.ComponentActivity
 

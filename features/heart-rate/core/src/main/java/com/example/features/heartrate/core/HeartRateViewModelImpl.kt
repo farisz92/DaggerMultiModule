@@ -1,8 +1,7 @@
-package com.example.core
+package com.example.features.heartrate.core
 
 import android.util.Log
-import com.example.api.interfaces.HeartRateViewModel
-import java.util.UUID
+import com.example.features.heartrate.api.interfaces.HeartRateViewModel
 import javax.inject.Inject
 
 class HeartRateViewModelImpl @Inject constructor(

@@ -1,4 +1,4 @@
-package com.example.dagger.di
+package com.example.features.heartrate.di
 
 import com.example.core.di.FeatureScope
 import com.example.core.di.prod.CoreComponent

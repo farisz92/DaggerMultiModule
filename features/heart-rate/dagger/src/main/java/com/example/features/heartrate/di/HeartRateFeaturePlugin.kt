@@ -1,7 +1,7 @@
-package com.example.dagger.di
+package com.example.features.heartrate.di
 
 import android.util.Log
-import com.example.api.interfaces.HeartRateViewModel
+import com.example.features.heartrate.api.interfaces.HeartRateViewModel
 import com.example.core.di.FeatureScope
 import com.example.core.di.prod.CoreComponent
 import com.example.core.featureprovision.ComponentProviderRegistry

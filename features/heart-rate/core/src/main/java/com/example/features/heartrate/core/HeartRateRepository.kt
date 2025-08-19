@@ -1,4 +1,4 @@
-package com.example.core
+package com.example.features.heartrate.core
 
 import android.util.Log
 import javax.inject.Inject

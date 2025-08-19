@@ -22,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.activity_two.lifecyclecomponent.ActivityTwo
 import com.example.activityone.ui.theme.DaggerMultiModuleTheme
-import com.example.api.interfaces.HeartRateViewModel
+import com.example.features.heartrate.api.interfaces.HeartRateViewModel
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.di.FeatureScope
 import com.example.core.featureprovision.LazyFeatureDelegate

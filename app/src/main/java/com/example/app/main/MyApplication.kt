@@ -14,7 +14,7 @@ import com.example.core.di.prod.CoreComponent
 import com.example.core.di.prod.CoreProvider
 import com.example.core.di.prod.DaggerCoreComponent
 import com.example.core.featureprovision.ScopeAwareFeatureManager
-import com.example.dagger.di.HeartRateModuleInitializer
+import com.example.features.heartrate.di.HeartRateModuleInitializer
 import com.example.dagger.di.StepsModuleInitializer
 
 class MyApplication : Application(), FeatureInjectorProvider {

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.activity_two.ui.theme.DaggerMultiModuleTheme
-import com.example.api.interfaces.HeartRateViewModel
+import com.example.features.heartrate.api.interfaces.HeartRateViewModel
 import com.example.api.interfaces.StepsViewModel
 import com.example.core.di.FeatureScope
 import com.example.core.lifecycle.BaseActivity

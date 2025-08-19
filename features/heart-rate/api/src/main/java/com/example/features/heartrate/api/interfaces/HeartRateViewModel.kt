@@ -1,4 +1,4 @@
-package com.example.api.interfaces
+package com.example.features.heartrate.api.interfaces
 
 interface HeartRateViewModel {
     val instanceId: String
