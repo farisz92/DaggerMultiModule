@@ -58,10 +58,6 @@ class ActivityOne : BaseActivity() {
             val vm = heartRateVM
             Log.d("ActivityOne", "Leviathan - After first access to heartRateVM")
 
-            // Verify the VM was created
-            assert(vm != null)
-
-            // Access again to verify caching
             val sameVm = heartRateVM
             assert(vm === sameVm) // Should be the same instance
             setupUI()
